@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { dbConnection } = require('./db/config');
 //importando para poder configurar como variable de entorno el puerto
 require('dotenv').config();
@@ -22,6 +23,10 @@ app.use(express.json());
 //Rutas
 app.use('/api/auth', require('./routes/auth'));
 
+//manejar las demas rutas
+app.get('*', (req,res) => {
+    res.sendFile( path.resolve( __dirname, 'public/index.html'));
+});
 
 /* puerto que va a escuchar, depende del host,
 pero este es un mensaje cuando se despliega */
