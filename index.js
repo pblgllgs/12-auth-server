@@ -16,23 +16,25 @@ dbConnection();
 app.use(express.static('public'));
 
 //cors
-app.use(cors());
+const whitelist = ['http://localhost:4000']; // list of allow domain
 
-var whitelist = ['http://localhost:4000']
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+const corsOptions = {
+   origin: function(origin, callback) {
+      if (!origin) {
+         return callback(null, true);
+      }
+
+      if (whitelist.indexOf(origin) === -1) {
+         var msg = 'The CORS policy for this site does not ' +
+            'allow access from the specified Origin.';
+         return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+   }
 }
 
-
-app.get('/', cors(corsOptions), (req, res) =>{
-    res.json({mensaje: 'ok'});
-});
+// end 
+app.use(cors(corsOptions));
 
 
 //lectura y parseo del body
