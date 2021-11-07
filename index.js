@@ -18,6 +18,22 @@ app.use(express.static('public'));
 //cors
 app.use(cors());
 
+var whitelist = ['https://angular-auth-pblgllgs.herokuapp.com']
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+
+app.get('/', cors(corsOptions), (req, res) =>{
+    res.json({mensaje: 'ok'});
+});
+
 
 //lectura y parseo del body
 app.use(express.json());
