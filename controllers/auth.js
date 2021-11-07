@@ -1,7 +1,8 @@
 const {response} = require('express');
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcryptjs');
-const { generarJWT } = require('../helpers/jwt')
+const { generarJWT } = require('../helpers/jwt');
+const { db } = require('../models/Usuario');
 
 const crearUsuario = async(req,res = response) => {
 
@@ -31,6 +32,7 @@ const crearUsuario = async(req,res = response) => {
             ok: true,
             uid: dbUser.id,
             name,
+            email,
             token
         });
 
@@ -77,6 +79,7 @@ const loginUsuario = async(req,res= response) => {
             ok: true,
             uid: dbUser.id,
             name: dbUser.name,
+            email: dbUser.email,
             token
         });
         
@@ -91,15 +94,20 @@ const loginUsuario = async(req,res= response) => {
 
 const revalidarToken = async(req,res= response) => {
 
-    const {uid,name} = req;
+    const {uid} = req;
+
+    //leer DB 
+
+    const dbUser = await Usuario.findById(uid);
 
     //genero nuevo token por 24 h
-    const token = await generarJWT(uid,name);
+    const token = await generarJWT(uid,dbUser.name);
 
     return res.json({
         ok: true,
         uid,
-        name,
+        name: dbUser.name,
+        email: dbUser.email,
         token
     });
 
