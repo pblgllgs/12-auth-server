@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+
 const { dbConnection } = require('./db/config');
 //importando para poder configurar como variable de entorno el puerto
 require('dotenv').config();
