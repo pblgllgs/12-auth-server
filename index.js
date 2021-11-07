@@ -10,16 +10,23 @@ const app = express();
 // Base de datos
 dbConnection();
 
-
 // Directorio Público
 app.use( express.static('public') );
 
 // CORS
-app.use( cors() );
+
+var corsConfig = (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+};
+
+app.use( cors('corsConfig') );
 
 // Lectura y parseo del body
 app.use( express.json() );
-
 
 // Rutas
 app.use( '/api/auth', require('./routes/auth') );
