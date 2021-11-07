@@ -1,38 +1,30 @@
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
-
 const { dbConnection } = require('./db/config');
-//importando para poder configurar como variable de entorno el puerto
 require('dotenv').config();
 
-//crear el sevidor/app de express
+// Crear el servidor/aplicación de express
 const app = express();
 
-//base de datos
+// Base de datos
 dbConnection();
 
-//Directorio publico
-app.use(express.static('public'));
 
-//cors
-app.use(cors({
-    origin: 'https://angular-auth-pblgllgs.herokuapp.com/'
-}));
+// Directorio Público
+app.use( express.static('public') );
 
-//lectura y parseo del body
-app.use(express.json());
+// CORS
+app.use( cors() );
 
-//Rutas
-app.use('/api/auth', require('./routes/auth'));
+// Lectura y parseo del body
+app.use( express.json() );
 
-//manejar las demas rutas
-app.get('*', (req,res) => {
-    res.sendFile( path.resolve( __dirname, 'public/index.html'));
-});
 
-/* puerto que va a escuchar, depende del host,
-pero este es un mensaje cuando se despliega */
-app.listen(process.env.PORT, () =>{
+// Rutas
+app.use( '/api/auth', require('./routes/auth') );
+
+
+app.listen( process.env.PORT, () => {
     console.log(`Servidor corriendo en puerto ${ process.env.PORT }`);
 });
+
