@@ -18,7 +18,7 @@ app.use(express.static('public'));
 //cors
 app.use(cors());
 
-var whitelist = ['https://angular-auth-pblgllgs.herokuapp.com']
+var whitelist = ['http://localhost:4000']
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
