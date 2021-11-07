@@ -16,7 +16,7 @@ dbConnection();
 app.use(express.static('public'));
 
 //cors
-app.use(cors('Access-Control-Allow-Origin'));
+app.use(cors(''));
 
 //lectura y parseo del body
 app.use(express.json());
