@@ -55,7 +55,7 @@ const loginUsuario = async(req,res= response) => {
         if(!dbUser){
             return res.status(400).json({
                 ok: false,
-                msg: 'Credenciales inválidas'
+                msg: 'Datos inválidos'
             });
         }
 
@@ -65,7 +65,7 @@ const loginUsuario = async(req,res= response) => {
         if(!validPassword){
             return res.status(400).json({
                 ok: false,
-                msg: 'Credenciales inválidas'
+                msg: 'Datos inválidos'
             });
         }
 
