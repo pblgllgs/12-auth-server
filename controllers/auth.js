@@ -94,22 +94,32 @@ const loginUsuario = async(req,res= response) => {
 
 const revalidarToken = async(req,res= response) => {
 
-    const {uid} = req;
+    try {
 
-    //leer DB 
+        const {uid} = req;
 
-    const dbUser = await Usuario.findById(uid);
+        //leer DB 
 
-    //genero nuevo token por 24 h
-    const token = await generarJWT(uid,dbUser.name);
+        const dbUser = await Usuario.findById(uid);
 
-    return res.json({
-        ok: true,
-        uid,
-        name: dbUser.name,
-        email: dbUser.email,
-        token
-    });
+        //genero nuevo token por 24 h
+        const token = await generarJWT(uid,dbUser.name);
+
+        return res.json({
+            ok: true,
+            uid,
+            name: dbUser.name,
+            email: dbUser.email,
+            token
+        });
+    } catch (error) {
+        console.log(err);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error en la autenticación'
+        });
+    }
+    
 
 };
 
