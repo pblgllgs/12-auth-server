@@ -16,7 +16,9 @@ dbConnection();
 app.use(express.static('public'));
 
 //cors
-app.use(cors());
+app.use(cors({
+    origin: 'https://angular-auth-pblgllgs.herokuapp.com/'
+}));
 
 //lectura y parseo del body
 app.use(express.json());
